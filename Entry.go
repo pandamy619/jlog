@@ -1,10 +1,5 @@
 package logging
 
-import (
-	"fmt"
-	"time"
-)
-
 /*
 Format message
 {
@@ -37,18 +32,23 @@ const (
 	errorPrefix = "\u001b[31m[ERROR]\u001b[0m"
 )
 
+/*
+Example:
+{
+	"package": "name_package"
+	"function": "name_function"
+	"error": "message"
+}
+ */
 type Fields map[string]interface{}
 
-type Entry struct {
-	Format string
-}
-
+/*
 func (entry *Entry) timeLog() string{
-	t := time.Now()
-	if entry.Format == "" {
-		return t.Format("2006-01-02T15:04:05")
+	// t := time.Now()
+	if entry.FormatTime == "" {
+		return entry.Time.String()
 	}
-	return t.Format(entry.Format)
+	return entry.Time.Format(entry.FormatTime)
 }
 
 func logrsl(time string, prefix string, row string) {
@@ -64,14 +64,20 @@ func mapToRow(fields Fields) string{
 	return row
 }
 
-func (entry *Entry) Info(fields Fields) {
-	logrsl(entry.timeLog(), infoPrefix, mapToRow(fields))
+func (entry *Entry) Info(message string) {
+	// entry.Fields["message"] =  message
+	// fmt.Println(entry.Fields)
+	// logrsl(entry.timeLog(), infoPrefix, mapToRow(entry.Fields))
 }
 
-func (entry *Entry) Warning(fields Fields) {
-	logrsl(entry.timeLog(), warningPrefix, mapToRow(fields))
+func (entry *Entry) Warning(message string) {
+	// entry.Fields["message"] =  message
+	// logrsl(entry.timeLog(), warningPrefix, mapToRow(entry.Fields))
 }
 
-func (entry *Entry) Error(fields Fields) {
-	logrsl(entry.timeLog(), errorPrefix, mapToRow(fields))
+func (entry *Entry) Error(message string) {
+	// entry.Fields["message"] =  message
+	// logrsl(entry.timeLog(), errorPrefix, mapToRow(entry.Fields))
 }
+
+ */
