@@ -8,6 +8,7 @@ type Logger struct {
 	// Time time.Time
 	// FormatTime string
 	out io.Writer
+	fields string
 }
 
 // NewLog creates a new Logger
@@ -16,7 +17,7 @@ func NewLog(out io.Writer) *Logger {
 }
 
 func (l *Logger) checkLineBreak(buf []byte) []byte{
-	if buf[len(buf) - 1] != '\n' {
+	if len(buf) == 0 || buf[len(buf) - 1] != '\n' {
 		buf = append(buf, '\n')
 	}
 	return buf

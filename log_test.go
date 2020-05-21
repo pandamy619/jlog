@@ -39,10 +39,26 @@ func TestLogger_Output(t *testing.T) {
 	}
 	l := NewLog(file)
 
-	err = l.Output("test row")
+	err = l.Output("test row 1")
 	if err != nil {
 		t.Error("error write to file")
 	}
-
+	err = l.Output("test row 2")
 	fmt.Println("Stop TestLogger_Output")
+}
+
+func TestLogger_Info(t *testing.T) {
+	fmt.Println("Start test TestLogger_Info")
+
+	file, err := openFile()
+	defer file.Close()
+	if err != nil {
+		t.Error("file opening error")
+		os.Exit(1)
+	}
+	// l := NewLog(file)
+	// TODO: не могу передать fields в функцию
+	// l.WithFields()
+
+	fmt.Println("Stop test TestLogger_Info")
 }

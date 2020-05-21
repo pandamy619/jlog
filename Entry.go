@@ -1,5 +1,7 @@
 package logging
 
+import "fmt"
+
 /*
 Format message
 {
@@ -64,12 +66,6 @@ func mapToRow(fields Fields) string{
 	return row
 }
 
-func (entry *Entry) Info(message string) {
-	// entry.Fields["message"] =  message
-	// fmt.Println(entry.Fields)
-	// logrsl(entry.timeLog(), infoPrefix, mapToRow(entry.Fields))
-}
-
 func (entry *Entry) Warning(message string) {
 	// entry.Fields["message"] =  message
 	// logrsl(entry.timeLog(), warningPrefix, mapToRow(entry.Fields))
@@ -81,3 +77,22 @@ func (entry *Entry) Error(message string) {
 }
 
  */
+
+func fieldsToStr(fields Fields) string{
+	row := ""
+	for key, val := range fields {
+		row += fmt.Sprintf("%s: %s ", key, val)
+	}
+	return row
+}
+
+func (l *Logger) WithFields(fields Fields) {
+	l.fields = fieldsToStr(fields)
+}
+
+func (l *Logger) Info(message string) {
+	fmt.Println(l.fields)
+	// entry.Fields["message"] =  message
+	// fmt.Println(entry.Fields)
+	// logrsl(entry.timeLog(), infoPrefix, mapToRow(entry.Fields))
+}
