@@ -59,15 +59,16 @@ func TestLogger_Print(t *testing.T) {
 	}
 
 	l := NewLog(time.Now().Format("2006-01-02T15:04:05"), file)
-	l.WithFields(Fields{"package": "logging", "function": "TestLogger_Info"})
-	for i := 0; i< 10; i++ {
-		info := fmt.Sprintf("message info %d", i)
-		warning := fmt.Sprintf("message warning %d", i)
-		Error := fmt.Sprintf("message error %d", i)
-		l.Info(info)
-		l.Warning(warning)
-		l.Error(Error)
-	}
-
+	l.WithFields(Fields{
+		"package": "logging",
+		"function": "TestLogger_Info",
+	})
+	fmt.Println("")
+	l.Info("message info")
+	fmt.Println("")
+	l.Warning("message warning")
+	fmt.Println("")
+	l.Error("message error")
+	fmt.Println("")
 	fmt.Println("Stop test TestLogger_Info")
 }
