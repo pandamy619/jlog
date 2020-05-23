@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
 )
 
 
@@ -23,7 +24,7 @@ func TestNewLog(t *testing.T) {
 		t.Error("file opening error")
 		os.Exit(1)
 	}
-	NewLog(file)
+	NewLog(time.Now().Format("2006-01-02T15:04:05"), file)
 
 	fmt.Println("Stop test TestNewLog")
 }
@@ -37,7 +38,7 @@ func TestLogger_Output(t *testing.T) {
 		t.Error("file opening error")
 		os.Exit(1)
 	}
-	l := NewLog(file)
+	l := NewLog(time.Now().Format("2006-01-02T15:04:05"), file)
 
 	err = l.Output("test row 1")
 	if err != nil {
@@ -47,7 +48,7 @@ func TestLogger_Output(t *testing.T) {
 	fmt.Println("Stop TestLogger_Output")
 }
 
-func TestLogger_Info(t *testing.T) {
+func TestLogger_Print(t *testing.T) {
 	fmt.Println("Start test TestLogger_Info")
 
 	file, err := openFile()
@@ -56,9 +57,17 @@ func TestLogger_Info(t *testing.T) {
 		t.Error("file opening error")
 		os.Exit(1)
 	}
-	// l := NewLog(file)
-	// TODO: не могу передать fields в функцию
-	// l.WithFields()
+
+	l := NewLog(time.Now().Format("2006-01-02T15:04:05"), file)
+	l.WithFields(Fields{"package": "logging", "function": "TestLogger_Info"})
+	for i := 0; i< 10; i++ {
+		info := fmt.Sprintf("message info %d", i)
+		warning := fmt.Sprintf("message warning %d", i)
+		Error := fmt.Sprintf("message error %d", i)
+		l.Info(info)
+		l.Warning(warning)
+		l.Error(Error)
+	}
 
 	fmt.Println("Stop test TestLogger_Info")
 }

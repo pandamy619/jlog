@@ -2,37 +2,11 @@ package logging
 
 import "fmt"
 
-/*
-Format message
-{
-  package: ""
-  func: ""
-  message ""
-}
-*/
-
-/* palette
-Black: \u001b[30m
-Red: \u001b[31m
-Green: \u001b[32m
-Yellow: \u001b[33m
-Blue: \u001b[34m
-Magenta: \u001b[35m
-Cyan: \u001b[36m
-White: \u001b[37m
-Reset: \u001b[0m
-*/
 
 /*
 Format log
 time [STATUS] message
  */
-
-const (
-	infoPrefix = "\u001B[34;1m[INFO]\u001B[0m"
-	warningPrefix = "\u001B[33m[WARNING]\u001b[0m"
-	errorPrefix = "\u001b[31m[ERROR]\u001b[0m"
-)
 
 /*
 Example:
@@ -58,14 +32,6 @@ func logrsl(time string, prefix string, row string) {
 	fmt.Println(message)
 }
 
-func mapToRow(fields Fields) string{
-	row := ""
-	for key, val := range fields {
-		row += fmt.Sprintf("%s: %s ", key, val)
-	}
-	return row
-}
-
 func (entry *Entry) Warning(message string) {
 	// entry.Fields["message"] =  message
 	// logrsl(entry.timeLog(), warningPrefix, mapToRow(entry.Fields))
@@ -78,7 +44,7 @@ func (entry *Entry) Error(message string) {
 
  */
 
-func fieldsToStr(fields Fields) string{
+func (l *Logger) fieldsToStr(fields Fields) string{
 	row := ""
 	for key, val := range fields {
 		row += fmt.Sprintf("%s: %s ", key, val)
@@ -87,12 +53,5 @@ func fieldsToStr(fields Fields) string{
 }
 
 func (l *Logger) WithFields(fields Fields) {
-	l.fields = fieldsToStr(fields)
-}
-
-func (l *Logger) Info(message string) {
-	fmt.Println(l.fields)
-	// entry.Fields["message"] =  message
-	// fmt.Println(entry.Fields)
-	// logrsl(entry.timeLog(), infoPrefix, mapToRow(entry.Fields))
+	l.fields = l.fieldsToStr(fields)
 }
