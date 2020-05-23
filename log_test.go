@@ -7,13 +7,14 @@ import (
 	"time"
 )
 
-
 func openFile() (*os.File, error){
 	file, err := os.OpenFile("./tmp/test.log",
 		os.O_CREATE|os.O_APPEND|os.O_WRONLY,
 		0644)
 	return file, err
 }
+
+// TestNewLog
 
 func TestNewLog(t *testing.T) {
 	fmt.Println("Start test TestNewLog")
@@ -28,6 +29,8 @@ func TestNewLog(t *testing.T) {
 
 	fmt.Println("Stop test TestNewLog")
 }
+
+// TestLogger_Output
 
 func TestLogger_Output(t *testing.T) {
 	fmt.Println("Start TestLogger_Output")
@@ -48,8 +51,10 @@ func TestLogger_Output(t *testing.T) {
 	fmt.Println("Stop TestLogger_Output")
 }
 
+// TestLogger_Print
+
 func TestLogger_Print(t *testing.T) {
-	fmt.Println("Start test TestLogger_Info")
+	fmt.Println("Start test TestLogger_Print")
 
 	file, err := openFile()
 	defer file.Close()
@@ -63,12 +68,35 @@ func TestLogger_Print(t *testing.T) {
 		"package": "logging",
 		"function": "TestLogger_Info",
 	})
-	fmt.Println("")
 	l.Info("message info")
-	fmt.Println("")
 	l.Warning("message warning")
-	fmt.Println("")
 	l.Error("message error")
-	fmt.Println("")
-	fmt.Println("Stop test TestLogger_Info")
+	fmt.Println("Stop test TestLogger_Print")
+}
+
+// TestLogger_JsonLog
+
+func fun1(l *Logs) {
+	l.FunsLog("fun1")
+	// l.FunLog("info", "message info", time.Now().Format("2006-01-02T15:04:05"))
+}
+
+func fun2(l *Logs) {
+	l.FunsLog("fun2")
+}
+
+func fun3(l *Logs) {
+	l.FunsLog("fun3")
+}
+
+func TestLogger_JsonLog(t *testing.T) {
+	fmt.Println("Start test TestLogger_JsonLog")
+
+	l := LogsJson("Logging")
+	fun1(l)
+	fun2(l)
+	fun3(l)
+	l.Report()
+
+	fmt.Println("Stop test TestLogger_JsonLog")
 }
