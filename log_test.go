@@ -76,17 +76,22 @@ func TestLogger_Print(t *testing.T) {
 
 // TestLogger_JsonLog
 
+func subfun1(l *Logs) {
+	l.SubLog("warning", "message subfun1", time.Now().Format("2006-01-02T15:04:05"))
+}
+
 func fun1(l *Logs) {
-	l.FunsLog("fun1")
-	// l.FunLog("info", "message info", time.Now().Format("2006-01-02T15:04:05"))
+	ls := l.Log("fun1").SubLog("info", "message fun1", time.Now().Format("2006-01-02T15:04:05"))
+	ls.SubLog("warning", "message fun1", time.Now().Format("2006-01-02T15:04:05"))
+	// subfun1(ls)
 }
 
 func fun2(l *Logs) {
-	l.FunsLog("fun2")
+	l.Log("fun2").SubLog("warning", "message fun2", time.Now().Format("2006-01-02T15:04:05"))
 }
 
 func fun3(l *Logs) {
-	l.FunsLog("fun3")
+	l.Log("fun3").SubLog("Error", "message fun3", time.Now().Format("2006-01-02T15:04:05"))
 }
 
 func TestLogger_JsonLog(t *testing.T) {

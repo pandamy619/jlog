@@ -21,7 +21,7 @@ Example:
 
 type Fields map[string]interface{}
 
-type Field map[string]interface{}
+// type Field map[string]interface{}
 
 func (l *Logger) fieldsToStr(fields Fields) string{
 	row := ""
@@ -35,40 +35,35 @@ func (l *Logger) WithFields(fields Fields) {
 	l.fields = l.fieldsToStr(fields)
 }
 
-// попытка строгого назначения полей
-type Log struct {
-	stauts string
-	message string
-	time string
-	// TODO Возможность пользователю добавлять кастомные поля
-	// Fields
-}
-
-type Funs struct {
-	Log map[string]interface{}
-}
 
 type Logs struct {
 	Pkg string `json:"package"`
-	Funs []interface{} `json:"functions"`
+	Funs map[string]interface{} `json:"functions"`
+	log []interface{}
+	name string
 }
 
-func (l *Logs) FunLog(status string, message string, time string) {
-	l.Funs = append(l.Funs, Fields{
+func (l *Logs) SubLog(status string, message string, time string) *Logs{
+	// TODO Возможность пользователю добавлять кастомные поля
+	// FunLog(status string, message string, time string, fields Fields)
+	// fields: Словарик для кастомного назначения полей
+	l.log = append(l.log, Fields{
 		"status": status,
 		"message": message,
 		"time": time,
 	})
+	l.Funs[l.name] = l.log
+	return &Logs{Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
-func (l *Logs) FunsLog(name string) {
-	l.Funs = append(l.Funs, Fields{
-		name: []string{},
-	})
+func (l *Logs) Log(name string) *Logs{
+	l.name = name
+	return &Logs{Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
 func LogsJson(pkg string) *Logs{
-	return &Logs{Pkg: pkg}
+	m := make(map[string]interface{})
+	return &Logs{Pkg: pkg, Funs: m}
 }
 
 func (l *Logs) Report()  {
