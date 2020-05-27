@@ -74,3 +74,36 @@ func (l *Logger) Error(message string) {
 	// TODO после тестов убрать
 	// os.Exit(1)
 }
+
+func (l *Logger) fieldsToStr(fields Fields) string{
+	row := ""
+	for key, val := range fields {
+		row += fmt.Sprintf("%s: %s ", key, val)
+	}
+	return row
+}
+
+func (l *Logger) WithFields(fields Fields) {
+	l.fields = l.fieldsToStr(fields)
+}
+
+// Entry
+func (l *Logs) outputConsole(prefix string, row string) {
+	fmt.Printf("%s %s\n",prefix, row)
+}
+
+func (l *Logs) Info(message string) *Logs{
+	l.outputConsole(infoPrefix, message)
+	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+}
+
+func (l *Logs) Warning(message string) *Logs{
+	l.outputConsole(warningPrefix, message)
+	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+}
+
+func (l *Logs) Error(message string) {
+	l.outputConsole(errorPrefix, message)
+	// l.Report()
+	// os.Exit(1)
+}
