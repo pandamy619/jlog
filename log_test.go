@@ -81,11 +81,14 @@ func subfun1(l *Logs) {
 		"warning",
 		"message subfun1",
 		time.Now().Format("2006-01-02T15:04:05"),
-		Fields{"fun": "subfun1"})
+		Fields{
+			"fun": "subfun1",
+		})
 }
 
 func fun1(l *Logs) {
-	ls := l.Log("fun1").SubLog(
+	ls := l.Log("fun1")
+	ls.SubLog(
 		"info",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
@@ -98,7 +101,11 @@ func fun1(l *Logs) {
 
 func fun2(l *Logs) {
 	ls := l.Log("fun2")
-	ls.SubLog("warning", "message fun2", time.Now().Format("2006-01-02T15:04:05"))
+	ls.SubLog(
+		"info",
+		"message fun2",
+		time.Now().Format("2006-01-02T15:04:05"),
+		).Info("Info Message")
 }
 
 func fun3(l *Logs) {
@@ -114,15 +121,10 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	file, err := openFile("./tmp/test.json")
-	defer file.Close()
-	if err != nil {
-		t.Error("file opening error")
-	}
-	l := LogsJson("Logging", file)
+	l := LogsJson("Logging", "tmp")
 	fun1(l)
 	fun2(l)
 	fun3(l)
-	defer l.Report()
+	l.Report()
 	fmt.Println("Stop test TestLogger_JsonLog")
 }

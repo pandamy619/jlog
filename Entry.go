@@ -2,7 +2,6 @@ package logging
 
 import (
 	"fmt"
-	"io"
 )
 
 
@@ -21,7 +20,8 @@ Example:
  */
 
 type Logs struct {
-	out io.Writer
+	// out io.Writer
+	location string
 	Pkg string `json:"package"`
 	Funs map[string]interface{} `json:"functions"`
 	log []interface{}
@@ -30,14 +30,14 @@ type Logs struct {
 
 type Fields map[string]interface{}
 
-func LogsJson(pkg string, out io.Writer) *Logs{
+func LogsJson(pkg string, location string) *Logs{
 	m := make(map[string]interface{})
-	return &Logs{out: out, Pkg: pkg, Funs: m}
+	return &Logs{location: location, Pkg: pkg, Funs: m}
 }
 
 func (l *Logs) Log(name string) *Logs{
 	l.name = name
-	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
 func (l *Logs) SubLogWithFields(status string, message string, time string, fields Fields) *Logs{
@@ -62,7 +62,7 @@ func (l *Logs) SubLog(status string, message string, time string) *Logs{
 func (l *Logs) updateArr(fields Fields) *Logs{
 	l.log = append(l.log, fields)
 	l.Funs[l.name] = l.log
-	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
 func (l *Logs) fieldsToStr(fields Fields) string{
@@ -73,9 +73,7 @@ func (l *Logs) fieldsToStr(fields Fields) string{
 	return row
 }
 
-func (l *Logs) Report() {
+func (l *Logs) Report() []byte{
 	obj := structJson(l)
-	fmt.Println(string(obj))
-	_, _ = l.out.Write(obj)
-	_, _ = l.out.Write([]byte("\n"))
+	return obj
 }

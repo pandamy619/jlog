@@ -3,6 +3,9 @@ package logging
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
+	"os"
+	"time"
 )
 
 
@@ -87,23 +90,32 @@ func (l *Logger) WithFields(fields Fields) {
 	l.fields = l.fieldsToStr(fields)
 }
 
+
 // Entry
+func (l *Logs) outFile() {
+	_ = ioutil.WriteFile(
+		fmt.Sprintf("%s/%s.json", l.location, l.Pkg),
+		l.Report(),
+		0777,
+	)
+}
 func (l *Logs) outputConsole(prefix string, row string) {
-	fmt.Printf("%s %s\n",prefix, row)
+	datetime := time.Now().Format("2006-01-02T15:04:05")
+	fmt.Printf("%s \u001b[32mPACKAGE\u001B[0m: %s %s %s\n",datetime, l.Pkg, prefix, row)
+	l.outFile()
 }
 
 func (l *Logs) Info(message string) *Logs{
 	l.outputConsole(infoPrefix, message)
-	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
 func (l *Logs) Warning(message string) *Logs{
 	l.outputConsole(warningPrefix, message)
-	return &Logs{out: l.out, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
 func (l *Logs) Error(message string) {
 	l.outputConsole(errorPrefix, message)
-	// l.Report()
-	// os.Exit(1)
+	os.Exit(1)
 }
