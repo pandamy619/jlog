@@ -7,18 +7,19 @@ import (
 	"time"
 )
 
-
-func openFile() (*os.File, error){
-	file, err := os.OpenFile("./tmp/test.log",
+func openFile(filePath string) (*os.File, error){
+	file, err := os.OpenFile(filePath,
 		os.O_CREATE|os.O_APPEND|os.O_WRONLY,
 		0644)
 	return file, err
 }
 
+// TestNewLog
+
 func TestNewLog(t *testing.T) {
 	fmt.Println("Start test TestNewLog")
 
-	file, err := openFile()
+	file, err := openFile("./tmp/test.log")
 	defer file.Close()
 	if err != nil {
 		t.Error("file opening error")
@@ -29,10 +30,12 @@ func TestNewLog(t *testing.T) {
 	fmt.Println("Stop test TestNewLog")
 }
 
+// TestLogger_Output
+
 func TestLogger_Output(t *testing.T) {
 	fmt.Println("Start TestLogger_Output")
 
-	file, err := openFile()
+	file, err := openFile("./tmp/test.log")
 	defer file.Close()
 	if err != nil {
 		t.Error("file opening error")
@@ -48,10 +51,12 @@ func TestLogger_Output(t *testing.T) {
 	fmt.Println("Stop TestLogger_Output")
 }
 
-func TestLogger_Print(t *testing.T) {
-	fmt.Println("Start test TestLogger_Info")
+// TestLogger_Print
 
-	file, err := openFile()
+func TestLogger_Print(t *testing.T) {
+	fmt.Println("Start test TestLogger_Print")
+
+	file, err := openFile("./tmp/test.log")
 	defer file.Close()
 	if err != nil {
 		t.Error("file opening error")
@@ -63,12 +68,63 @@ func TestLogger_Print(t *testing.T) {
 		"package": "logging",
 		"function": "TestLogger_Info",
 	})
-	fmt.Println("")
 	l.Info("message info")
-	fmt.Println("")
 	l.Warning("message warning")
-	fmt.Println("")
 	l.Error("message error")
-	fmt.Println("")
-	fmt.Println("Stop test TestLogger_Info")
+	fmt.Println("Stop test TestLogger_Print")
+}
+
+// TestLogger_JsonLog
+
+func subfun1(l *Logs) {
+	l.SubLogWithFields(
+		"warning",
+		"message subfun1",
+		time.Now().Format("2006-01-02T15:04:05"),
+		Fields{
+			"fun": "subfun1",
+		})
+}
+
+func fun1(l *Logs) {
+	ls := l.Log("fun1")
+	ls.SubLog(
+		"info",
+		"message fun1",
+		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
+	ls.SubLog(
+		"warning",
+		"message fun1",
+		time.Now().Format("2006-01-02T15:04:05")).Warning("warning message")
+	subfun1(ls)
+}
+
+func fun2(l *Logs) {
+	ls := l.Log("fun2")
+	ls.SubLog(
+		"info",
+		"message fun2",
+		time.Now().Format("2006-01-02T15:04:05"),
+		).Info("Info Message")
+}
+
+func fun3(l *Logs) {
+	l.Log("fun3").SubLog(
+		"Error",
+		"message fun3",
+		time.Now().Format("2006-01-02T15:04:05")).Error("Error message")
+	l.Log("fun3").SubLog(
+		"Info",
+		"message fun3",
+		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
+}
+
+func TestLogger_JsonLog(t *testing.T) {
+	fmt.Println("Start test TestLogger_JsonLog")
+	l := LogsJson("Logging", "tmp")
+	fun1(l)
+	fun2(l)
+	fun3(l)
+	l.Report()
+	fmt.Println("Stop test TestLogger_JsonLog")
 }

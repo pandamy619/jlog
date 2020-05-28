@@ -3,6 +3,9 @@ package logging
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
+	"os"
+	"time"
 )
 
 
@@ -73,4 +76,46 @@ func (l *Logger) Error(message string) {
 	l.outputConsole(l.time, errorPrefix, row)
 	// TODO после тестов убрать
 	// os.Exit(1)
+}
+
+func (l *Logger) fieldsToStr(fields Fields) string{
+	row := ""
+	for key, val := range fields {
+		row += fmt.Sprintf("%s: %s ", key, val)
+	}
+	return row
+}
+
+func (l *Logger) WithFields(fields Fields) {
+	l.fields = l.fieldsToStr(fields)
+}
+
+
+// Entry
+func (l *Logs) outFile() {
+	_ = ioutil.WriteFile(
+		fmt.Sprintf("%s/%s.json", l.location, l.Pkg),
+		l.Report(),
+		0777,
+	)
+}
+func (l *Logs) outputConsole(prefix string, row string) {
+	datetime := time.Now().Format("2006-01-02T15:04:05")
+	fmt.Printf("%s \u001b[32mPACKAGE\u001B[0m: %s %s %s\n",datetime, l.Pkg, prefix, row)
+	l.outFile()
+}
+
+func (l *Logs) Info(message string) *Logs{
+	l.outputConsole(infoPrefix, message)
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+}
+
+func (l *Logs) Warning(message string) *Logs{
+	l.outputConsole(warningPrefix, message)
+	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+}
+
+func (l *Logs) Error(message string) {
+	l.outputConsole(errorPrefix, message)
+	os.Exit(1)
 }
