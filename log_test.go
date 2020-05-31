@@ -121,7 +121,7 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	l := LogsJson("Logging", "tmp")
+	l := InitLog("Logging", "tmp")
 	fun1(l)
 	fun2(l)
 	fun3(l)
