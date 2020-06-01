@@ -42,7 +42,6 @@ func (l *Logs) SubLog(status string, message string, time string) *Logs{
 func (l *Logs) updateArr(fields Fields) *Logs{
 	l.log = append(l.log, fields)
 	l.Funs[l.name] = l.log
-	l.filedToConsole(fields)
 	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
 }
 
