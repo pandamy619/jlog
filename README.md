@@ -10,36 +10,141 @@ go get github.com/pandamy619/logger
 ### Init struct
 
 ```go
-NewLog(time string, out io.Writer)
+func InitLog(pkg string, location string, consoleLog string) *Logs
+```
+* pkg: Name package.
+* location: Folder where logs will be saved.
+* consoleLog: Method output to console, simple or json.
+
+#### Example
+
+```go
+package main
+import (
+    "logging"
+)
+
+func main() {
+   l := InitLog("SomePackage", "tmp", "simple")
+}
 ```
 
-### Print to console
-```go
-l := NewLog(time string, out io.Writer)
+### log usage
 
-l.WithFields(Fields{
-    "package": "SomePackage",
-    "function": "SomeFunction",
-})
+```go
+func Log(name string) *Logs
+```
+* name: Function name.
+
+#### Example
+
+```go
+package main
+import (
+    "logging"
+)
+
+func main() {
+   l := logging.InitLog("SomePackage", "tmp", "simple")
+   l.Log("SomeNameFunction")
+}
 ```
 
-#### Info
-```go
-l.Info("message info")
+### Sublog usage
 
-2020-05-23T11:08:00 [INFO] package: SomePackage function: SomeFunction message info
+```go
+func SubLog(status string, message string, time string) *Logs
+```
+* status: Status log (info/warning/error/customStatus).
+* message: Message containing information about the log.
+* time: Date and time.
+
+#### Example
+
+```go
+package main
+import (
+    "time"
+
+    "logging"
+)
+
+func main() {
+   l := logging.InitLog("SomePackage", "tmp", "simple")
+   l.Log("SomeNameFunction").SubLog(
+       "error",
+       "some message",
+       time.Now().Format("2006-01-02T15:04:05"),
+   )
+}
+```
+### SubLog with custom field
+```go
+func SubLogWithFields(status string, message string, time string, field Fields) *Logs
+```
+* status: Status log (info/warning/error/customStatus).
+* message: Message containing information about the log.
+* time: Date and time.
+* fields: Fields.
+
+#### Example
+
+```go
+package main
+import (
+    "time"
+
+    "logging"
+)
+
+func main() {
+   l := logging.InitLog("SomePackage", "tmp", "simple")
+   l.Log("SomeNameFunction").SubLogWithFields(
+       "error",
+       "some message",
+       time.Now().Format("2006-01-02T15:04:05"),
+       logging.Fields{
+            "customField": "SomeMessageCustomField",
+	   },
+   )
+}
 ```
 
-#### Warning
-```go
-l.Warning("message warning")
+### Console log and output file
 
-2020-05-23T11:08:00 [Warning] package: SomePackage function: SomeFunction message warning
+```go
+package main
+import (
+    "time"
+
+    "logging"
+)
+
+func main() {
+   l := logging.InitLog("SomePackage", "tmp", "simple")
+   ls := l.Log("SomeNameFunction")
+   ls.SubLog(
+       "info",
+       "some message",
+       time.Now().Format("2006-01-02T15:04:05"),
+   ).Info("some info message")
+   
+   ls.SubLog(
+       "warning",
+       "some message",
+       time.Now().Format("2006-01-02T15:04:05"),
+   ).Warning("some warning message")
+   
+    ls.SubLog(
+       "error",
+       "some message",
+       time.Now().Format("2006-01-02T15:04:05"),
+    ).Error("some error message")
+}
 ```
 
-#### Error
-```go
-l.Error("message error")
-
-2020-05-23T11:08:00 [Error] package: SomePackage function: SomeFunction message error
+```bash
+2020-06-02T17:28:15 [package] SomePackage [func] SomeNameFunction [INFO] some info message
+2020-06-02T17:28:15 [package] SomePackage [func] SomeNameFunction [WARNING] some warning message
+2020-06-02T17:28:15 [package] SomePackage [func] SomeNameFunction [ERROR] error message
 ```

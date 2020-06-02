@@ -61,7 +61,6 @@ func TestLogger_JsonLog(t *testing.T) {
 	fun1(l)
 	fun2(l)
 	fun3(l)
-	l.Report()
 	fmt.Println("Stop test TestLogger_JsonLog")
 }
 
@@ -71,7 +70,6 @@ func TestLogger_SimpleLog(t *testing.T) {
 	fun1(l)
 	fun2(l)
 	fun3(l)
-	l.Report()
 	fmt.Println("Stop test TestLogger_SimpleLog")
 }
 
@@ -81,6 +79,5 @@ func TestLogger_OtherLog(t *testing.T) {
 	fun1(l)
 	fun2(l)
 	fun3(l)
-	l.Report()
 	fmt.Println("Stop test TestLogger_OtherLog")
 }
