@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 )
 
 const (
@@ -14,29 +13,29 @@ const (
 )
 
 func (l *Logs) outFile() {
+	_, err := os.Stat(l.location)
+	if os.IsNotExist(err) {
+		_ = os.MkdirAll(l.location, 0777)
+	}
 	_ = ioutil.WriteFile(
 		fmt.Sprintf("%s/%s.json", l.location, l.Pkg),
 		l.Report(),
 		0777,
 	)
 }
-func (l *Logs) outputConsole(prefix string, row string) {
-	datetime := time.Now().Format("2006-01-02T15:04:05")
-	fmt.Printf("%s \u001b[32mPACKAGE\u001B[0m: %s %s %s\n",datetime, l.Pkg, prefix, row)
+
+func (l *Logs) Info(message string){
+	l.typeConsoleLog(infoPrefix, message)
 	l.outFile()
 }
 
-func (l *Logs) Info(message string) *Logs{
-	l.outputConsole(infoPrefix, message)
-	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
-}
-
-func (l *Logs) Warning(message string) *Logs{
-	l.outputConsole(warningPrefix, message)
-	return &Logs{location: l.location, Pkg: l.Pkg, Funs: l.Funs,  name: l.name, log: l.log}
+func (l *Logs) Warning(message string) {
+	l.typeConsoleLog(warningPrefix, message)
+	l.outFile()
 }
 
 func (l *Logs) Error(message string) {
-	l.outputConsole(errorPrefix, message)
-	os.Exit(1)
+	l.typeConsoleLog(errorPrefix, message)
+	l.outFile()
+	// os.Exit(1)
 }
