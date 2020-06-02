@@ -57,10 +57,30 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	l := InitLog("Logging", "tmp")
+	l := InitLog("Logging", "tmp", "json")
 	fun1(l)
 	fun2(l)
 	fun3(l)
 	l.Report()
 	fmt.Println("Stop test TestLogger_JsonLog")
+}
+
+func TestLogger_SimpleLog(t *testing.T) {
+	fmt.Println("Start test TestLogger_SimpleLog")
+	l := InitLog("Logging", "tmp", "simple")
+	fun1(l)
+	fun2(l)
+	fun3(l)
+	l.Report()
+	fmt.Println("Stop test TestLogger_SimpleLog")
+}
+
+func TestLogger_OtherLog(t *testing.T) {
+	fmt.Println("Start test TestLogger_OtherLog")
+	l := InitLog("Logging", "tmp", "other")
+	fun1(l)
+	fun2(l)
+	fun3(l)
+	l.Report()
+	fmt.Println("Stop test TestLogger_OtherLog")
 }
