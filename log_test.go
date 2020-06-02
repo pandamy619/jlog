@@ -15,7 +15,7 @@ func subfun1(l *Logs) {
 		time.Now().Format("2006-01-02T15:04:05"),
 		Fields{
 			"fun": "subfun1",
-		})
+		}).Warning("Warning message")
 }
 
 func fun1(l *Logs) {
