@@ -1,4 +1,4 @@
-# logger
+# jlog
 
 ## Installation
 ```bash
