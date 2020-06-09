@@ -1,4 +1,4 @@
-package logging
+package jlog
 
 import (
 	"fmt"
@@ -18,18 +18,18 @@ func (l *Logs) typeConsoleLog(prefix string, message string) {
 
 func (l *Logs) simple(pkg string, function string, status string, message string) {
 	datetime := time.Now().Format("2006-01-02T15:04:05")
-	fmt.Printf("%s \u001b[32m[package]\u001B[0m %s \u001B[33;1m[func]\u001B[0m %s %s %s\n",
+	fmt.Printf("%s %s \u001b[32mpackage\u001B[0m:%s \u001B[33;1mfunc\u001B[0m:%s %s\n",
+		status,
 		datetime,
 		pkg,
 		function,
-		status,
 		message,
 		)
 }
 
 func (l *Logs) json(pkg string, function string, prefix string, message string) {
-	fmt.Printf("\u001B[32m[package]\u001B[0m %s \u001B[33;1m[func]\u001B[0m %s\n", pkg, function)
 	fmt.Printf("%s %s\n", prefix, message)
+	fmt.Printf("\u001B[32m[package]\u001B[0m %s \u001B[33;1m[func]\u001B[0m %s\n", pkg, function)
 	fmt.Printf("%s", string(structJson(l.fields)))
 	fmt.Printf("\n")
 }

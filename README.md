@@ -10,8 +10,9 @@ go get github.com/pandamy619/logger
 ### func InitLog
 
 ```go
-func InitLog(pkg string, location string, consoleLog string) *Logs
+func InitJLog(pkg string, location string, consoleLog string) *Logs
 ```
+Create new Logger.
 * pkg: Name package.
 * location: Folder where logs will be saved.
 * consoleLog: Method output to console, simple or json.
@@ -21,6 +22,7 @@ func InitLog(pkg string, location string, consoleLog string) *Logs
 ```go
 func Log(name string) *Logs
 ```
+Usually called at the beginning of a function.
 * name: Function name.
 
 ### func Sublog

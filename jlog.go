@@ -1,4 +1,4 @@
-package logging
+package jlog
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 const (
 	infoPrefix = "\u001B[34;1m[INFO]\u001B[0m"
-	warningPrefix = "\u001B[33m[WARNING]\u001b[0m"
+	warningPrefix = "\u001B[33m[WARN]\u001b[0m"
 	errorPrefix = "\u001b[31m[ERROR]\u001b[0m"
 )
 
@@ -50,5 +50,5 @@ func (l *Logs) Warning(message string) {
 func (l *Logs) Error(message string) {
 	l.typeConsoleLog(errorPrefix, message)
 	l.outFile()
-	// os.Exit(1)
+	os.Exit(1)
 }
