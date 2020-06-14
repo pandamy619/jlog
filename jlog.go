@@ -7,12 +7,6 @@ import (
 	"time"
 )
 
-const (
-	infoPrefix = "\u001B[34;1m[INFO]\u001B[0m"
-	warningPrefix = "\u001B[33m[WARN]\u001b[0m"
-	errorPrefix = "\u001b[31m[ERROR]\u001b[0m"
-)
-
 
 func (l *Logs) checkDir(path string) {
 	_, err := os.Stat(path)

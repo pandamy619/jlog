@@ -15,18 +15,25 @@ func (l *Logs) typeConsoleLog(prefix string, message string) {
 	}
 }
 
+func (l *Logs) pkgRow(pkg string) string{
+	return pkgPrefix + ":" + pkg
+}
+
+func (l *Logs) funcRow(function string) string{
+	return funcPrefix + ":" + function
+}
+
+func (l *Logs) detailRow(message string) string{
+	return detailPrefix + ":" + message
+}
+
 func (l *Logs) simple(pkg string, function string, status string, message string) {
-	fmt.Printf("%s \u001b[32mpackage\u001B[0m:%s \u001B[33;1mfunc\u001B[0m:%s detail:%s\n",
-		status,
-		pkg,
-		function,
-		message,
-		)
+	row := fmt.Sprintf("%s %s %s %s", status, l.pkgRow(pkg), l.funcRow(function), l.detailRow(message))
+	fmt.Println(row)
 }
 
 func (l *Logs) json(pkg string, function string, prefix string, message string) {
-	fmt.Printf("%s %s\n", prefix, message)
-	fmt.Printf("\u001B[32m[package]\u001B[0m %s \u001B[33;1m[func]\u001B[0m %s\n", pkg, function)
+	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(pkg), l.funcRow(function))
 	fmt.Printf("%s", string(structJson(l.fields)))
 	fmt.Printf("\n")
 }
