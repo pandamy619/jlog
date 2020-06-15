@@ -1,4 +1,4 @@
-package logging
+package jlog
 
 type Fields map[string]interface{}
 
@@ -12,9 +12,14 @@ type Logs struct {
 	consoleLog string
 }
 
-func InitLog(pkg string, location string, consoleLog string) *Logs{
+func InitJLog(pkg string, location string, consoleLog string) *Logs{
 	m := make(map[string]interface{})
-	return &Logs{location: location, Pkg: pkg, Funs: m, consoleLog: consoleLog}
+	return &Logs{
+		location: location,
+		Pkg: pkg,
+		Funs: m,
+		consoleLog: consoleLog,
+	}
 }
 
 func (l *Logs) Log(name string) *Logs{

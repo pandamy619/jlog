@@ -1,4 +1,4 @@
-package logging
+package jlog
 
 import (
 	"fmt"
@@ -42,10 +42,6 @@ func fun2(l *Logs) {
 
 func fun3(l *Logs) {
 	l.Log("fun3").SubLog(
-		"Error",
-		"message fun3",
-		time.Now().Format("2006-01-02T15:04:05")).Error("Error message")
-	l.Log("fun3").SubLog(
 		"Info",
 		"message fun3",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
@@ -57,7 +53,7 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	l := InitLog("Logging", "tmp", "json")
+	l := InitJLog("Logging", "tmp", "json")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -66,7 +62,7 @@ func TestLogger_JsonLog(t *testing.T) {
 
 func TestLogger_SimpleLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_SimpleLog")
-	l := InitLog("Logging", "tmp", "simple")
+	l := InitJLog("Logging", "tmp", "simple")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -75,7 +71,7 @@ func TestLogger_SimpleLog(t *testing.T) {
 
 func TestLogger_OtherLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_OtherLog")
-	l := InitLog("Logging", "tmp", "other")
+	l := InitJLog("Logging", "tmp", "other")
 	fun1(l)
 	fun2(l)
 	fun3(l)
