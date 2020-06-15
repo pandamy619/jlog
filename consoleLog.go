@@ -2,6 +2,7 @@ package jlog
 
 import (
 	"fmt"
+	"strings"
 )
 
 func (l *Logs) typeConsoleLog(prefix string, message string) {
@@ -13,6 +14,21 @@ func (l *Logs) typeConsoleLog(prefix string, message string) {
 	default:
 		l.simple(l.Pkg, l.name, prefix, message)
 	}
+}
+
+func (l *Logs) sep(status string) string{
+	var color string
+	switch status {
+	case "info":
+		color = infoColor
+	case "warning":
+		color = warningColor
+	case "error":
+		color = errorColor
+	default:
+		color = infoColor
+	}
+	return fmt.Sprintf("%s-------------------------%s", color, resetColor)
 }
 
 func (l *Logs) pkgRow(pkg string) string{
@@ -33,7 +49,10 @@ func (l *Logs) simple(pkg string, function string, status string, message string
 }
 
 func (l *Logs) json(pkg string, function string, prefix string, message string) {
+	status := strings.ToLower(l.fields["status"].(string))
+	sep := l.sep(status)
+	fmt.Printf("%s\n", sep)
 	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(pkg), l.funcRow(function))
-	fmt.Printf("%s", string(structJson(l.fields)))
-	fmt.Printf("\n")
+	fmt.Printf("%s\n", string(structJson(l.fields)))
+	fmt.Printf("%s\n", sep)
 }
