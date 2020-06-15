@@ -32,11 +32,11 @@ func (l *Logs) sep(status string) string{
 }
 
 func (l *Logs) pkgRow(pkg string) string{
-	return pkgPrefix + ":" + pkg
+	return pkgPrefix + ":" + brightGreen + pkg + resetColor
 }
 
 func (l *Logs) funcRow(function string) string{
-	return funcPrefix + ":" + function
+	return funcPrefix + ":" + brightGreen + function + resetColor
 }
 
 func (l *Logs) detailRow(message string) string{
