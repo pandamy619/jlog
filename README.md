@@ -87,4 +87,5 @@ func main() {
 }
 ```
 
-![](./img/simple.png | width=250)
+simple log
+![](./img/simple.png)
