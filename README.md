@@ -87,8 +87,4 @@ func main() {
 }
 ```
 
-```bash
-2020-06-02T17:28:15 [package] SomePackage [func] fun1 [INFO] some info message
-2020-06-02T17:28:15 [package] SomePackage [func] fun2 [WARNING] some warning message
-2020-06-02T17:28:15 [package] SomePackage [func] fun3 [ERROR] error message
-```
+![](./img/simple.png | width=250)
