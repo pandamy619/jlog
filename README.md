@@ -88,4 +88,5 @@ func main() {
 ```
 
 simple log
-![](./img/simple.png)
+
+<img src="./img/simple.png" width="550" height="50">
