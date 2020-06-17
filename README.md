@@ -36,7 +36,7 @@ func (l *Jlogs) Sub(status string, message string, time string) *Jlogs
 
 ### func (*Jlogs) SubWithFields
 ```go
-func (l *Jlogs) SubLogWithFields(status string, message string, time string, field Fields) *Jlogs
+func (l *Jlogs) SubWithFields(status string, message string, time string, field Fields) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
