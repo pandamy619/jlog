@@ -22,7 +22,7 @@ func Init(pkg string, location string, consoleLog string) *Jlogs {
 	}
 }
 
-func (l *Jlogs) Log(name string) *Jlogs {
+func (l *Jlogs) Main(name string) *Jlogs {
 	l.name = name
 	return &Jlogs{
 		location: l.location,
@@ -35,7 +35,7 @@ func (l *Jlogs) Log(name string) *Jlogs {
 	}
 }
 
-func (l *Jlogs) SubLogWithFields(status string, message string, time string, fields Fields) *Jlogs {
+func (l *Jlogs) SubWithFields(status string, message string, time string, fields Fields) *Jlogs {
 	f := Fields{
 		"status": status,
 		"message": message,
@@ -46,7 +46,7 @@ func (l *Jlogs) SubLogWithFields(status string, message string, time string, fie
 	return l.updateArr(f)
 }
 
-func (l *Jlogs) SubLog(status string, message string, time string) *Jlogs {
+func (l *Jlogs) Sub(status string, message string, time string) *Jlogs {
 	f := Fields{
 		"status": status,
 		"message": message,

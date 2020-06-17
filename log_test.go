@@ -9,7 +9,7 @@ import (
 // TestLogger_JsonLog
 
 func subfun1(l *Jlogs) {
-	l.SubLogWithFields(
+	l.SubWithFields(
 		"warning",
 		"message subfun1",
 		time.Now().Format("2006-01-02T15:04:05"),
@@ -19,16 +19,16 @@ func subfun1(l *Jlogs) {
 }
 
 func fun1(l *Jlogs) {
-	ls := l.Log("fun1")
-	ls.SubLog(
+	ls := l.Main("fun1")
+	ls.Sub(
 		"info",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
-	ls.SubLog(
+	ls.Sub(
 		"warning",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Warning("warning message")
-	//ls.SubLog(
+	//ls.Sub(
 	//	"error",
 	//	"message fun1",
 	//	time.Now().Format("2006-01-02T15:04:05")).Error("error message")
@@ -36,8 +36,8 @@ func fun1(l *Jlogs) {
 }
 
 func fun2(l *Jlogs) {
-	ls := l.Log("fun2")
-	ls.SubLog(
+	ls := l.Main("fun2")
+	ls.Sub(
 		"info",
 		"message fun2",
 		time.Now().Format("2006-01-02T15:04:05"),
@@ -45,11 +45,11 @@ func fun2(l *Jlogs) {
 }
 
 func fun3(l *Jlogs) {
-	l.Log("fun3").SubLog(
+	l.Main("fun3").Sub(
 		"Info",
 		"message fun3",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
-	l.Log("fun3").SubLog(
+	l.Main("fun3").Sub(
 		"other",
 		"message fun3",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Other message")
