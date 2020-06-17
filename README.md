@@ -17,24 +17,24 @@ Create new Logger.
 * location: Folder where logs will be saved.
 * consoleLog: Method output to console, simple or json.
 
-### func (*Jlogs) Log
+### func (*Jlogs) Main
 
 ```go
-func (l *Jlogs) Log(name string) *Jlogs
+func (l *Jlogs) Main(name string) *Jlogs
 ```
 Usually called at the beginning of a function.
 * name: Function name.
 
-### func (*Jlogs) Sublog
+### func (*Jlogs) Sub
 
 ```go
-func (l *Jlogs) SubLog(status string, message string, time string) *Jlogs
+func (l *Jlogs) Sub(status string, message string, time string) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
 * time: Date and time.
 
-### func (*Jlogs) SubLogWithFields
+### func (*Jlogs) SubWithFields
 ```go
 func (l *Jlogs) SubLogWithFields(status string, message string, time string, field Fields) *Jlogs
 ```
@@ -54,7 +54,7 @@ import (
 )
 
 func fun1(l *Jlogs) {
-   l.Log("fun1").SubLog(
+   l.Main("fun1").Sub(
    	   "info",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
@@ -62,8 +62,8 @@ func fun1(l *Jlogs) {
 }
 
 func fun2(l *Jlogs) {
-   ls := l.Log("fun2")
-   ls.SubLog(
+   ls := l.Main("fun2")
+   ls.Sub(
        "warning",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
@@ -71,8 +71,8 @@ func fun2(l *Jlogs) {
 }
 
 func fun3(l *Jlogs) {
-    ls := l.Log("fun3")
-    ls.SubLog(
+    ls := l.Main("fun3")
+    ls.Sub(
        "error",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
@@ -80,7 +80,7 @@ func fun3(l *Jlogs) {
 }
 
 func main() {
-   l := jlog.InitLog("SomePackage", "tmp", "simple")
+   l := jlog.Init("SomePackage", "tmp", "simple")
    fun1(l)
    fun2(l)
    fun3(l)
