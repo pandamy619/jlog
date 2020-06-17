@@ -1,0 +1,39 @@
+{
+    "package": "Logging",
+    "functions": {
+        "fun1": [
+            {
+                "message": "message fun1",
+                "status": "info",
+                "time": "2020-06-17T11:29:04"
+            },
+            {
+                "message": "message fun1",
+                "status": "warning",
+                "time": "2020-06-17T11:29:04"
+            },
+            {
+                "message": "message subfun1",
+                "meta": {
+                    "fun": "subfun1"
+                },
+                "status": "warning",
+                "time": "2020-06-17T11:29:04"
+            }
+        ],
+        "fun2": [
+            {
+                "message": "message fun2",
+                "status": "info",
+                "time": "2020-06-17T11:29:04"
+            }
+        ],
+        "fun3": [
+            {
+                "message": "message fun3",
+                "status": "other",
+                "time": "2020-06-17T11:29:04"
+            }
+        ]
+    }
+}

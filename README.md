@@ -7,36 +7,36 @@ go get github.com/pandamy619/logger
 
 ## Usage
 
-### func InitLog
+### func Init
 
 ```go
-func InitJLog(pkg string, location string, consoleLog string) *Logs
+func Init(pkg string, location string, consoleLog string) *Jlogs
 ```
 Create new Logger.
 * pkg: Name package.
 * location: Folder where logs will be saved.
 * consoleLog: Method output to console, simple or json.
 
-### func Log
+### func (*Jlogs) Main
 
 ```go
-func Log(name string) *Logs
+func (l *Jlogs) Main(name string) *Jlogs
 ```
 Usually called at the beginning of a function.
 * name: Function name.
 
-### func Sublog
+### func (*Jlogs) Sub
 
 ```go
-func SubLog(status string, message string, time string) *Logs
+func (l *Jlogs) Sub(status string, message string, time string) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
 * time: Date and time.
 
-### func SubLogWithFields
+### func (*Jlogs) SubWithFields
 ```go
-func SubLogWithFields(status string, message string, time string, field Fields) *Logs
+func (l *Jlogs) SubWithFields(status string, message string, time string, field Fields) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
@@ -50,29 +50,29 @@ package main
 import (
     "time"
 
-    "logging"
+    "jlog"
 )
 
-func fun1(l *Logs) {
-   l.Log("fun1").SubLog(
+func fun1(l *Jlogs) {
+   l.Main("fun1").Sub(
    	   "info",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
    ).Info("some info message")
 }
 
-func fun2(l *Logs) {
-   ls := l.Log("fun2")
-   ls.SubLog(
+func fun2(l *Jlogs) {
+   ls := l.Main("fun2")
+   ls.Sub(
        "warning",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
    ).Warning("some warning message")
 }
 
-func fun3(l *Logs) {
-    ls := l.Log("fun3")
-    ls.SubLog(
+func fun3(l *Jlogs) {
+    ls := l.Main("fun3")
+    ls.Sub(
        "error",
        "some message",
        time.Now().Format("2006-01-02T15:04:05"),
@@ -80,15 +80,51 @@ func fun3(l *Logs) {
 }
 
 func main() {
-   l := logging.InitLog("SomePackage", "tmp", "simple")
+   l := jlog.Init("SomePackage", "tmp", "simple")
    fun1(l)
    fun2(l)
    fun3(l)
 }
 ```
 
+simple log
 ```bash
-2020-06-02T17:28:15 [package] SomePackage [func] fun1 [INFO] some info message
-2020-06-02T17:28:15 [package] SomePackage [func] fun2 [WARNING] some warning message
-2020-06-02T17:28:15 [package] SomePackage [func] fun3 [ERROR] error message
+[INFO] package:some_package func:fun1 detail:Info message
+[WARN] package:some_package func:fun1 detail:warning message
+[ERROR] package:some_package func:fun1 detail:error message
+```
+
+json log
+
+```bash
+-------------------------
+[INFO] Info message
+package:some_package
+func:fun1
+{
+    "message": "message fun1",
+    "status": "info",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
+-------------------------
+[WARN] warning message
+package:some_package
+func:fun1
+{
+    "message": "message fun1",
+    "status": "warning",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
+-------------------------
+[ERROR] error message
+package:some_package
+func:fun1
+{
+    "message": "message fun1",
+    "status": "error",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
 ```

@@ -8,8 +8,8 @@ import (
 
 // TestLogger_JsonLog
 
-func subfun1(l *Logs) {
-	l.SubLogWithFields(
+func subfun1(l *Jlogs) {
+	l.SubWithFields(
 		"warning",
 		"message subfun1",
 		time.Now().Format("2006-01-02T15:04:05"),
@@ -18,34 +18,38 @@ func subfun1(l *Logs) {
 		}).Warning("Warning message")
 }
 
-func fun1(l *Logs) {
-	ls := l.Log("fun1")
-	ls.SubLog(
+func fun1(l *Jlogs) {
+	ls := l.Main("fun1")
+	ls.Sub(
 		"info",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
-	ls.SubLog(
+	ls.Sub(
 		"warning",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Warning("warning message")
+	//ls.Sub(
+	//	"error",
+	//	"message fun1",
+	//	time.Now().Format("2006-01-02T15:04:05")).Error("error message")
 	subfun1(ls)
 }
 
-func fun2(l *Logs) {
-	ls := l.Log("fun2")
-	ls.SubLog(
+func fun2(l *Jlogs) {
+	ls := l.Main("fun2")
+	ls.Sub(
 		"info",
 		"message fun2",
 		time.Now().Format("2006-01-02T15:04:05"),
 		).Info("Info Message")
 }
 
-func fun3(l *Logs) {
-	l.Log("fun3").SubLog(
+func fun3(l *Jlogs) {
+	l.Main("fun3").Sub(
 		"Info",
 		"message fun3",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
-	l.Log("fun3").SubLog(
+	l.Main("fun3").Sub(
 		"other",
 		"message fun3",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Other message")
@@ -53,7 +57,7 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	l := InitJLog("Logging", "tmp", "json")
+	l := Init("Logging", "tmp", "json")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -62,7 +66,7 @@ func TestLogger_JsonLog(t *testing.T) {
 
 func TestLogger_SimpleLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_SimpleLog")
-	l := InitJLog("Logging", "tmp", "simple")
+	l := Init("Logging", "tmp", "simple")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -71,7 +75,7 @@ func TestLogger_SimpleLog(t *testing.T) {
 
 func TestLogger_OtherLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_OtherLog")
-	l := InitJLog("Logging", "tmp", "other")
+	l := Init("Logging", "tmp", "other")
 	fun1(l)
 	fun2(l)
 	fun3(l)
