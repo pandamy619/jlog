@@ -7,36 +7,36 @@ go get github.com/pandamy619/logger
 
 ## Usage
 
-### func InitLog
+### func Init
 
 ```go
-func InitJLog(pkg string, location string, consoleLog string) *Logs
+func Init(pkg string, location string, consoleLog string) *Jlogs
 ```
 Create new Logger.
 * pkg: Name package.
 * location: Folder where logs will be saved.
 * consoleLog: Method output to console, simple or json.
 
-### func Log
+### func (*Jlogs) Log
 
 ```go
-func Log(name string) *Logs
+func (l *Jlogs) Log(name string) *Jlogs
 ```
 Usually called at the beginning of a function.
 * name: Function name.
 
-### func Sublog
+### func (*Jlogs) Sublog
 
 ```go
-func SubLog(status string, message string, time string) *Logs
+func (l *Jlogs) SubLog(status string, message string, time string) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
 * time: Date and time.
 
-### func SubLogWithFields
+### func (*Jlogs) SubLogWithFields
 ```go
-func SubLogWithFields(status string, message string, time string, field Fields) *Logs
+func (l *Jlogs) SubLogWithFields(status string, message string, time string, field Fields) *Jlogs
 ```
 * status: Status log (info/warning/error/customStatus).
 * message: Message containing information about the log.
@@ -50,10 +50,10 @@ package main
 import (
     "time"
 
-    "logging"
+    "jlog"
 )
 
-func fun1(l *Logs) {
+func fun1(l *Jlogs) {
    l.Log("fun1").SubLog(
    	   "info",
        "some message",
@@ -61,7 +61,7 @@ func fun1(l *Logs) {
    ).Info("some info message")
 }
 
-func fun2(l *Logs) {
+func fun2(l *Jlogs) {
    ls := l.Log("fun2")
    ls.SubLog(
        "warning",
@@ -70,7 +70,7 @@ func fun2(l *Logs) {
    ).Warning("some warning message")
 }
 
-func fun3(l *Logs) {
+func fun3(l *Jlogs) {
     ls := l.Log("fun3")
     ls.SubLog(
        "error",
@@ -80,7 +80,7 @@ func fun3(l *Logs) {
 }
 
 func main() {
-   l := logging.InitLog("SomePackage", "tmp", "simple")
+   l := jlog.InitLog("SomePackage", "tmp", "simple")
    fun1(l)
    fun2(l)
    fun3(l)
@@ -89,9 +89,9 @@ func main() {
 
 simple log
 ```bash
-[INFO] package:Logging func:fun1 detail:Info message
-[WARN] package:Logging func:fun1 detail:warning message
-[ERROR] package:Logging func:fun1 detail:error message
+[INFO] package:some_package func:fun1 detail:Info message
+[WARN] package:some_package func:fun1 detail:warning message
+[ERROR] package:some_package func:fun1 detail:error message
 ```
 
 json log
@@ -99,7 +99,7 @@ json log
 ```bash
 -------------------------
 [INFO] Info message
-package:Logging
+package:some_package
 func:fun1
 {
     "message": "message fun1",
@@ -109,7 +109,7 @@ func:fun1
 -------------------------
 -------------------------
 [WARN] warning message
-package:Logging
+package:some_package
 func:fun1
 {
     "message": "message fun1",
@@ -119,7 +119,7 @@ func:fun1
 -------------------------
 -------------------------
 [ERROR] error message
-package:Logging
+package:some_package
 func:fun1
 {
     "message": "message fun1",

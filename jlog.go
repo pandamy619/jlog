@@ -8,18 +8,8 @@ import (
 )
 
 
-func (l *Logs) checkDir(path string) {
-	_, err := os.Stat(path)
-	l.createDirAll(path, err)
-}
-
-func (l *Logs) createDirAll(path string, err error) {
-	if os.IsNotExist(err) {
-		_ = os.MkdirAll(path, 0777)
-	}
-}
-
-func (l *Logs) outFile() {
+// TODO в другой файл (example: workFile)
+func (l *Jlogs) outFile() {
 	path := fmt.Sprintf("%s/%s", l.location, l.Pkg)
 	l.checkDir(path)
 	// TODO временное решение
@@ -31,17 +21,17 @@ func (l *Logs) outFile() {
 	)
 }
 
-func (l *Logs) Info(message string){
+func (l *Jlogs) Info(message string){
 	l.typeConsoleLog(infoPrefix, message)
 	l.outFile()
 }
 
-func (l *Logs) Warning(message string) {
+func (l *Jlogs) Warning(message string) {
 	l.typeConsoleLog(warningPrefix, message)
 	l.outFile()
 }
 
-func (l *Logs) Error(message string) {
+func (l *Jlogs) Error(message string) {
 	l.typeConsoleLog(errorPrefix, message)
 	l.outFile()
 	os.Exit(1)

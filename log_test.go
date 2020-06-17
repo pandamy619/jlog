@@ -8,7 +8,7 @@ import (
 
 // TestLogger_JsonLog
 
-func subfun1(l *Logs) {
+func subfun1(l *Jlogs) {
 	l.SubLogWithFields(
 		"warning",
 		"message subfun1",
@@ -18,7 +18,7 @@ func subfun1(l *Logs) {
 		}).Warning("Warning message")
 }
 
-func fun1(l *Logs) {
+func fun1(l *Jlogs) {
 	ls := l.Log("fun1")
 	ls.SubLog(
 		"info",
@@ -35,7 +35,7 @@ func fun1(l *Logs) {
 	subfun1(ls)
 }
 
-func fun2(l *Logs) {
+func fun2(l *Jlogs) {
 	ls := l.Log("fun2")
 	ls.SubLog(
 		"info",
@@ -44,7 +44,7 @@ func fun2(l *Logs) {
 		).Info("Info Message")
 }
 
-func fun3(l *Logs) {
+func fun3(l *Jlogs) {
 	l.Log("fun3").SubLog(
 		"Info",
 		"message fun3",
@@ -57,7 +57,7 @@ func fun3(l *Logs) {
 
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
-	l := InitJLog("Logging", "tmp", "json")
+	l := Init("Logging", "tmp", "json")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -66,7 +66,7 @@ func TestLogger_JsonLog(t *testing.T) {
 
 func TestLogger_SimpleLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_SimpleLog")
-	l := InitJLog("Logging", "tmp", "simple")
+	l := Init("Logging", "tmp", "simple")
 	fun1(l)
 	fun2(l)
 	fun3(l)
@@ -75,7 +75,7 @@ func TestLogger_SimpleLog(t *testing.T) {
 
 func TestLogger_OtherLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_OtherLog")
-	l := InitJLog("Logging", "tmp", "other")
+	l := Init("Logging", "tmp", "other")
 	fun1(l)
 	fun2(l)
 	fun3(l)

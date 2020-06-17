@@ -5,18 +5,18 @@ import (
 	"strings"
 )
 
-func (l *Logs) typeConsoleLog(prefix string, message string) {
+func (l *Jlogs) typeConsoleLog(prefix string, message string) {
 	switch l.consoleLog {
 	case "simple":
-		l.simple(l.Pkg, l.name, prefix, message)
+		l.simple(prefix, message)
 	case "json":
-		l.json(l.Pkg, l.name, prefix, message)
+		l.json(prefix, message)
 	default:
-		l.simple(l.Pkg, l.name, prefix, message)
+		l.simple(prefix, message)
 	}
 }
 
-func (l *Logs) sep(status string) string{
+func (l *Jlogs) sep(status string) string{
 	var color string
 	switch status {
 	case "info":
@@ -31,28 +31,28 @@ func (l *Logs) sep(status string) string{
 	return fmt.Sprintf("%s-------------------------%s", color, resetColor)
 }
 
-func (l *Logs) pkgRow(pkg string) string{
-	return pkgPrefix + ":" + brightGreen + pkg + resetColor
+func (l *Jlogs) pkgRow() string{
+	return pkgPrefix + ":" + brightGreen + l.Pkg + resetColor
 }
 
-func (l *Logs) funcRow(function string) string{
-	return funcPrefix + ":" + brightGreen + function + resetColor
+func (l *Jlogs) funcRow() string{
+	return funcPrefix + ":" + brightGreen + l.name + resetColor
 }
 
-func (l *Logs) detailRow(message string) string{
+func (l *Jlogs) detailRow(message string) string{
 	return detailPrefix + ":" + message
 }
 
-func (l *Logs) simple(pkg string, function string, status string, message string) {
-	row := fmt.Sprintf("%s %s %s %s", status, l.pkgRow(pkg), l.funcRow(function), l.detailRow(message))
+func (l *Jlogs) simple(prefix string, message string) {
+	row := fmt.Sprintf("%s %s %s %s", prefix, l.pkgRow(), l.funcRow(), l.detailRow(message))
 	fmt.Println(row)
 }
 
-func (l *Logs) json(pkg string, function string, prefix string, message string) {
+func (l *Jlogs) json(prefix string, message string) {
 	status := strings.ToLower(l.fields["status"].(string))
 	sep := l.sep(status)
 	fmt.Printf("%s\n", sep)
-	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(pkg), l.funcRow(function))
+	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(), l.funcRow())
 	fmt.Printf("%s\n", string(structJson(l.fields)))
 	fmt.Printf("%s\n", sep)
 }

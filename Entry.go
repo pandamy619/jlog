@@ -2,7 +2,7 @@ package jlog
 
 type Fields map[string]interface{}
 
-type Logs struct {
+type Jlogs struct {
 	location string
 	Pkg string `json:"package"`
 	Funs map[string]interface{} `json:"functions"`
@@ -12,9 +12,9 @@ type Logs struct {
 	consoleLog string
 }
 
-func InitJLog(pkg string, location string, consoleLog string) *Logs{
+func Init(pkg string, location string, consoleLog string) *Jlogs {
 	m := make(map[string]interface{})
-	return &Logs{
+	return &Jlogs{
 		location: location,
 		Pkg: pkg,
 		Funs: m,
@@ -22,9 +22,9 @@ func InitJLog(pkg string, location string, consoleLog string) *Logs{
 	}
 }
 
-func (l *Logs) Log(name string) *Logs{
+func (l *Jlogs) Log(name string) *Jlogs {
 	l.name = name
-	return &Logs{
+	return &Jlogs{
 		location: l.location,
 		Pkg: l.Pkg,
 		Funs: l.Funs,
@@ -35,7 +35,7 @@ func (l *Logs) Log(name string) *Logs{
 	}
 }
 
-func (l *Logs) SubLogWithFields(status string, message string, time string, fields Fields) *Logs{
+func (l *Jlogs) SubLogWithFields(status string, message string, time string, fields Fields) *Jlogs {
 	f := Fields{
 		"status": status,
 		"message": message,
@@ -46,7 +46,7 @@ func (l *Logs) SubLogWithFields(status string, message string, time string, fiel
 	return l.updateArr(f)
 }
 
-func (l *Logs) SubLog(status string, message string, time string) *Logs{
+func (l *Jlogs) SubLog(status string, message string, time string) *Jlogs {
 	f := Fields{
 		"status": status,
 		"message": message,
@@ -56,10 +56,10 @@ func (l *Logs) SubLog(status string, message string, time string) *Logs{
 	return l.updateArr(f)
 }
 
-func (l *Logs) updateArr(fields Fields) *Logs{
+func (l *Jlogs) updateArr(fields Fields) *Jlogs {
 	l.log = append(l.log, fields)
 	l.Funs[l.name] = l.log
-	return &Logs{
+	return &Jlogs{
 		location: l.location,
 		Pkg: l.Pkg,
 		Funs: l.Funs,
@@ -70,7 +70,7 @@ func (l *Logs) updateArr(fields Fields) *Logs{
 	}
 }
 
-func (l *Logs) Report() []byte{
+func (l *Jlogs) Report() []byte{
 	obj := structJson(l)
 	return obj
 }
