@@ -88,5 +88,43 @@ func main() {
 ```
 
 simple log
+```bash
+[INFO] package:Logging func:fun1 detail:Info message
+[WARN] package:Logging func:fun1 detail:warning message
+[ERROR] package:Logging func:fun1 detail:error message
+```
 
-<img src="./img/log_simple.png" width="550" height="120">
+json log
+
+```bash
+-------------------------
+[INFO] Info message
+package:Logging
+func:fun1
+{
+    "message": "message fun1",
+    "status": "info",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
+-------------------------
+[WARN] warning message
+package:Logging
+func:fun1
+{
+    "message": "message fun1",
+    "status": "warning",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
+-------------------------
+[ERROR] error message
+package:Logging
+func:fun1
+{
+    "message": "message fun1",
+    "status": "error",
+    "time": "2020-06-17T11:21:59"
+}
+-------------------------
+```
