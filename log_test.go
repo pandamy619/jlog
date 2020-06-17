@@ -20,22 +20,18 @@ func subfun1(l *Logs) {
 
 func fun1(l *Logs) {
 	ls := l.Log("fun1")
-	fmt.Printf("\n")
 	ls.SubLog(
 		"info",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Info("Info message")
-	fmt.Printf("\n")
 	ls.SubLog(
 		"warning",
 		"message fun1",
 		time.Now().Format("2006-01-02T15:04:05")).Warning("warning message")
-	fmt.Printf("\n")
-	ls.SubLog(
-		"error",
-		"message fun1",
-		time.Now().Format("2006-01-02T15:04:05")).Error("error message")
-	fmt.Printf("\n")
+	//ls.SubLog(
+	//	"error",
+	//	"message fun1",
+	//	time.Now().Format("2006-01-02T15:04:05")).Error("error message")
 	subfun1(ls)
 }
 
