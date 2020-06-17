@@ -89,6 +89,4 @@ func main() {
 
 simple log
 
-<img src="./img/info_simple.png" width="550" height="50">
-<img src="./img/warn_simple.png" width="550" height="50">
-<img src="./img/error_simple.png" width="550" height="50">
+<img src="./img/simple.png" width="550" height="50">
