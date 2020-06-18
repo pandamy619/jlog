@@ -109,6 +109,19 @@ func main() {
 }
 ```
 
+### Status
+#### Info/Warning/Error
+```go
+func (l *Jlogs) Info(message string)
+```
+```go
+func (l *Jlogs) Warning(message string)
+```
+```go
+func (l *Jlogs) Error(message string)
+```
+
+
 #### Console log
 simple log
 ```bash
