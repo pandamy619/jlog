@@ -18,7 +18,7 @@ Create new Logger.
 * consoleLog: Method output to console, simple or json.
 
 example
-```bash
+```go
 package main
 
 import (
@@ -39,7 +39,7 @@ Usually called at the beginning of a function.
 * name: Function name.
 
 example
-```bash
+```go
 package main
 
 import (
@@ -61,7 +61,7 @@ func (l *Jlogs) Sub(status string, message string, time string) *Jlogs
 * message: Message containing information about the log.
 * time: Date and time.
 
-```bash
+```go
 package main
 
 import (
@@ -89,7 +89,7 @@ func (l *Jlogs) SubWithFields(status string, message string, time string, field 
 * fields: Fields.
 
 example
-```bash
+```go
 package main
 
 import (
@@ -150,4 +150,51 @@ func:fun1
     "time": "2020-06-17T11:21:59"
 }
 -------------------------
+```
+
+
+#### File output
+format file
+`YYYY-MM-DDTHH:MM:SS.json`
+
+```json
+{
+    "package": "Logging",
+    "functions": {
+        "fun1": [
+            {
+                "message": "message fun1",
+                "status": "info",
+                "time": "2020-06-18T09:06:03"
+            },
+            {
+                "message": "message fun1",
+                "status": "warning",
+                "time": "2020-06-18T09:06:03"
+            },
+            {
+                "message": "message subfun1",
+                "meta": {
+                    "fun": "subfun1"
+                },
+                "status": "warning",
+                "time": "2020-06-18T09:06:03"
+            }
+        ],
+        "fun2": [
+            {
+                "message": "message fun2",
+                "status": "info",
+                "time": "2020-06-18T09:06:03"
+            }
+        ],
+        "fun3": [
+            {
+                "message": "message fun3",
+                "status": "other",
+                "time": "2020-06-18T09:06:03"
+            }
+        ]
+    }
+}
 ```
