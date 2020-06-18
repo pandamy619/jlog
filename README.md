@@ -2,7 +2,7 @@
 
 ## Installation
 ```bash
-go get github.com/pandamy619/logger
+go get github.com/pandamy619/jlog
 ```
 
 ## Usage
