@@ -17,6 +17,19 @@ Create new Logger.
 * location: Folder where logs will be saved.
 * consoleLog: Method output to console, simple or json.
 
+example
+```bash
+package main
+
+import (
+	"jlog"
+)
+
+func main() {
+    jlog.Init("SomePackage", "tmp", "simple")
+}
+```
+
 ### func (*Jlogs) Main
 
 ```go
@@ -24,6 +37,20 @@ func (l *Jlogs) Main(name string) *Jlogs
 ```
 Usually called at the beginning of a function.
 * name: Function name.
+
+example
+```bash
+package main
+
+import (
+	"jlog"
+)
+
+func main() {
+    j := jlog.Init("SomePackage", "tmp", "simple")
+    j.Main("main")
+}
+```
 
 ### func (*Jlogs) Sub
 
@@ -34,6 +61,24 @@ func (l *Jlogs) Sub(status string, message string, time string) *Jlogs
 * message: Message containing information about the log.
 * time: Date and time.
 
+```bash
+package main
+
+import (
+	"jlog"
+)
+
+func main() {
+    j := jlog.Init("SomePackage", "tmp", "simple")
+    jMain := j.Main("main")
+    jMain.Sub(
+        "info",
+        "message fun1",
+        time.Now().Format("2006-01-02T15:04:05"),
+    ).Info("Info message")
+}
+```
+
 ### func (*Jlogs) SubWithFields
 ```go
 func (l *Jlogs) SubWithFields(status string, message string, time string, field Fields) *Jlogs
@@ -43,50 +88,28 @@ func (l *Jlogs) SubWithFields(status string, message string, time string, field 
 * time: Date and time.
 * fields: Fields.
 
-## Example
-
-```go
+example
+```bash
 package main
-import (
-    "time"
 
-    "jlog"
+import (
+	"jlog"
 )
 
-func fun1(l *Jlogs) {
-   l.Main("fun1").Sub(
-   	   "info",
-       "some message",
-       time.Now().Format("2006-01-02T15:04:05"),
-   ).Info("some info message")
-}
-
-func fun2(l *Jlogs) {
-   ls := l.Main("fun2")
-   ls.Sub(
-       "warning",
-       "some message",
-       time.Now().Format("2006-01-02T15:04:05"),
-   ).Warning("some warning message")
-}
-
-func fun3(l *Jlogs) {
-    ls := l.Main("fun3")
-    ls.Sub(
-       "error",
-       "some message",
-       time.Now().Format("2006-01-02T15:04:05"),
-    ).Error("some error message")
-}
-
 func main() {
-   l := jlog.Init("SomePackage", "tmp", "simple")
-   fun1(l)
-   fun2(l)
-   fun3(l)
+    j := jlog.Init("SomePackage", "tmp", "simple")
+    jMain := j.Main("main")
+    lMain.SubWithFields(
+        "warning",
+        "message subfun1",
+        time.Now().Format("2006-01-02T15:04:05"),
+        jlog.Fields{
+            "fun": "subfun1",
+    }).Warning("Warning message")
 }
 ```
 
+#### Console log
 simple log
 ```bash
 [INFO] package:some_package func:fun1 detail:Info message
