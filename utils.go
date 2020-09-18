@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"time"
 )
 
@@ -15,7 +16,6 @@ func structJson(obj interface{}) []byte{
 	return o
 }
 
-
 func (l *Jlogs) outFile() {
 	path := fmt.Sprintf("%s/%s", l.location, l.Pkg)
 	l.checkDir(path)
@@ -26,4 +26,15 @@ func (l *Jlogs) outFile() {
 		l.Report(),
 		0777,
 	)
+}
+
+func (l *Jlogs) checkDir(path string) {
+	_, err := os.Stat(path)
+	l.createDirAll(path, err)
+}
+
+func (l *Jlogs) createDirAll(path string, err error) {
+	if os.IsNotExist(err) {
+		_ = os.MkdirAll(path, 0777)
+	}
 }
