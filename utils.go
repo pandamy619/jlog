@@ -18,7 +18,7 @@ func structJson(obj interface{}) []byte{
 
 func (l *Jlogs) outFile() {
 	path := fmt.Sprintf("%s/%s", l.location, l.Pkg)
-	l.checkDir(path)
+	createDirs(path)
 	// TODO временное решение
 	filename := time.Now().Format("2006-01-02T15:04:05")
 	_ = ioutil.WriteFile(
@@ -28,12 +28,9 @@ func (l *Jlogs) outFile() {
 	)
 }
 
-func (l *Jlogs) checkDir(path string) {
+//createDirs creates a directory named path
+func createDirs(path string) {
 	_, err := os.Stat(path)
-	l.createDirAll(path, err)
-}
-
-func (l *Jlogs) createDirAll(path string, err error) {
 	if os.IsNotExist(err) {
 		_ = os.MkdirAll(path, 0777)
 	}
