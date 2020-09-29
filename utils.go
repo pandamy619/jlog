@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 )
 
 func structJson(obj interface{}) []byte{
@@ -16,7 +15,7 @@ func structJson(obj interface{}) []byte{
 	return o
 }
 
-//createDirs creates a directory named path
+// Creates a directory named path
 func createDirs(path string) {
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
@@ -24,22 +23,8 @@ func createDirs(path string) {
 	}
 }
 
-func writeToJson(name string, makeData interface{}) {
-	file, _ := os.OpenFile(name, os.O_CREATE, os.ModePerm)
-	defer file.Close()
-
-	encoder := json.NewEncoder(file)
-	_ = encoder.Encode(makeData)
-}
-
-func (l *Jlogs) outFile() {
-	path := fmt.Sprintf("%s/%s", l.location, l.Pkg)
+// Creates a directory named path and save file to this directory
+func outFile(path string, filename string, makeData []byte) {
 	createDirs(path)
-	// TODO временное решение
-	filename := time.Now().Format("2006-01-02T15:04:05")
-	_ = ioutil.WriteFile(
-		fmt.Sprintf("%s/%s/%s.json", l.location, l.Pkg, filename),
-		l.Report(),
-		0777,
-	)
+	_ = ioutil.WriteFile(filename, makeData,0777)
 }

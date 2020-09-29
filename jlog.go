@@ -1,9 +1,5 @@
 package jlog
 
-import (
-	"os"
-)
-
 type Jlogs struct {
 	location string
 	Pkg string `json:"package"`
@@ -75,20 +71,4 @@ func (l *Jlogs) updateArr(fields Fields) *Jlogs {
 func (l *Jlogs) Report() []byte{
 	obj := structJson(l)
 	return obj
-}
-
-func (l *Jlogs) Info(message string) {
-	l.typeConsoleLog(infoPrefix, message)
-	l.outFile()
-}
-
-func (l *Jlogs) Warning(message string) {
-	l.typeConsoleLog(warningPrefix, message)
-	l.outFile()
-}
-
-func (l *Jlogs) Error(message string) {
-	l.typeConsoleLog(errorPrefix, message)
-	l.outFile()
-	os.Exit(1)
 }
