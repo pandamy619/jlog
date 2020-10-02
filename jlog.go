@@ -69,6 +69,5 @@ func (l *Jlogs) updateArr(fields Fields) *Jlogs {
 }
 
 func (l *Jlogs) Report() []byte{
-	obj := structJson(l)
-	return obj
+	return structJson(l)
 }
