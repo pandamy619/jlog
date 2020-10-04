@@ -53,6 +53,6 @@ func (l *Jlogs) json(prefix string, message string) {
 	sep := l.sep(status)
 	fmt.Printf("%s\n", sep)
 	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(), l.funcRow())
-	fmt.Printf("%s\n", string(structJson(l.fields)))
+	fmt.Printf("%s\n", string(convertToJson(l.fields)))
 	fmt.Printf("%s\n", sep)
 }

@@ -1,15 +1,5 @@
 package jlog
 
-type Jlogs struct {
-	location string
-	Pkg string `json:"package"`
-	Funs map[string]interface{} `json:"functions"`
-	log []interface{}
-	name string
-	fields Fields
-	consoleLog string
-}
-
 func Init(pkg string, location string, consoleLog string) *Jlogs {
 	fun := make(map[string]interface{})
 	return &Jlogs{
@@ -18,6 +8,16 @@ func Init(pkg string, location string, consoleLog string) *Jlogs {
 		Funs: fun,
 		consoleLog: consoleLog,
 	}
+}
+
+type Jlogs struct {
+	location string
+	Pkg string `json:"package"`
+	Funs map[string]interface{} `json:"functions"`
+	log []interface{}
+	name string
+	fields Fields
+	consoleLog string
 }
 
 func (l *Jlogs) Main(name string) *Jlogs {
@@ -69,5 +69,5 @@ func (l *Jlogs) updateArr(fields Fields) *Jlogs {
 }
 
 func (l *Jlogs) Report() []byte{
-	return structJson(l)
+	return convertToJson(l)
 }

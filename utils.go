@@ -5,10 +5,10 @@ import (
 	"fmt"
 )
 
-func structJson(obj interface{}) []byte{
-	o, err := json.MarshalIndent(obj, "", "    ")
+func convertToJson(obj interface{}) []byte{
+	jsonObj, err := json.MarshalIndent(obj, "", "    ")
 	if err != nil {
 		fmt.Println(err)
 	}
-	return o
+	return jsonObj
 }
