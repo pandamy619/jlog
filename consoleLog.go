@@ -5,6 +5,12 @@ import (
 	"strings"
 )
 
+const (
+	pkgPrefix = brightRed + "package" + resetColor
+	funcPrefix = brightRed + "func" + resetColor
+	detailPrefix = magenta + "detail" + resetColor
+)
+
 func (l *Jlogs) typeConsoleLog(prefix string, message string) {
 	switch l.consoleLog {
 	case "simple":

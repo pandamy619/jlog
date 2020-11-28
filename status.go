@@ -2,6 +2,14 @@ package jlog
 
 import "os"
 
+
+const (
+
+	infoPrefix = infoColor + "[INFO]" + resetColor
+	warningPrefix = warningColor + "[WARN]" + resetColor
+	errorPrefix = errorColor + "[ERROR]" + resetColor
+)
+
 func (l *Jlogs) Info(message string) {
 	l.typeConsoleLog(infoPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
