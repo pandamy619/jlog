@@ -12,7 +12,7 @@ const (
 )
 
 func (l *Jlogs) typeConsoleLog(prefix string, message string) {
-	switch l.consoleLog {
+	switch l.consoleType {
 	case "simple":
 		l.simple(prefix, message)
 	case "json":

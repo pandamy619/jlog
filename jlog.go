@@ -1,35 +1,35 @@
 package jlog
 
-func Init(pkg string, location string, consoleLog string) *Jlogs {
+func Init(pkg string, location string, consoleType string) *Jlogs {
 	fun := make(map[string]interface{})
 	return &Jlogs{
-		location: location,
-		Pkg: pkg,
-		Funs: fun,
-		consoleLog: consoleLog,
+		location:    location,
+		Pkg:         pkg,
+		Funs:        fun,
+		consoleType: consoleType,
 	}
 }
 
 type Jlogs struct {
-	location string
-	Pkg string `json:"package"`
-	Funs map[string]interface{} `json:"functions"`
-	log []interface{}
-	name string
-	fields Fields
-	consoleLog string
+	location    string
+	Pkg         string `json:"package"`
+	Funs        map[string]interface{} `json:"functions"`
+	log         []interface{}
+	name        string
+	fields      Fields
+	consoleType string
 }
 
 func (l *Jlogs) Main(name string) *Jlogs {
 	l.name = name
 	return &Jlogs{
-		location: l.location,
-		Pkg: l.Pkg,
-		Funs: l.Funs,
-		name: l.name,
-		log: l.log,
-		fields: l.fields,
-		consoleLog: l.consoleLog,
+		location:    l.location,
+		Pkg:         l.Pkg,
+		Funs:        l.Funs,
+		name:        l.name,
+		log:         l.log,
+		fields:      l.fields,
+		consoleType: l.consoleType,
 	}
 }
 
@@ -58,13 +58,13 @@ func (l *Jlogs) updateArr(fields Fields) *Jlogs {
 	l.log = append(l.log, fields)
 	l.Funs[l.name] = l.log
 	return &Jlogs{
-		location: l.location,
-		Pkg: l.Pkg,
-		Funs: l.Funs,
-		name: l.name,
-		log: l.log,
-		fields: l.fields,
-		consoleLog: l.consoleLog,
+		location:    l.location,
+		Pkg:         l.Pkg,
+		Funs:        l.Funs,
+		name:        l.name,
+		log:         l.log,
+		fields:      l.fields,
+		consoleType: l.consoleType,
 	}
 }
 
