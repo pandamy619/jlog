@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	pkgPrefix    = brightRed + "package" + resetColor
-	funcPrefix   = brightRed + "func" + resetColor
-	detailPrefix = magenta + "detail" + resetColor
+	prefixPkg    = brightRed + "package" + resetColor
+	prefixFunc   = brightRed + "func" + resetColor
+	prefixDetail = magenta + "detail" + resetColor
 )
 
 func (l *Jlogs) typeConsoleLog(prefix string, message string) {
@@ -39,24 +39,24 @@ func (l *Jlogs) sep(status string) string {
 
 // getPkg return colorized name package.
 func (l *Jlogs) getPkg() string {
-	return pkgPrefix + ":" + brightGreen + l.Pkg + resetColor
+	return prefixPkg + ":" + brightGreen + l.Pkg + resetColor
 }
 
 // getFunc return colorized name function.
 func (l *Jlogs) getFunc() string {
-	return funcPrefix + ":" + brightGreen + l.name + resetColor
+	return prefixFunc + ":" + brightGreen + l.name + resetColor
 }
 
 // addPrefix message then add colorized prefix 'detail' to the message and return it.
-func (l *Jlogs) addPrefix(message string) string {
-	return detailPrefix + ":" + message
+func (l *Jlogs) addPrefix(prefix string, message string) string {
+	return prefix + ":" + message
 }
 
 // simple calls Println to print row to the console.
 // Row is formed from status/name package/name function/message.
 func (l *Jlogs) simple(prefix string, message string) {
 	fmt.Println(
-		fmt.Sprintf("%s %s %s %s", prefix, l.getPkg(), l.getFunc(), l.addPrefix(message)),
+		fmt.Sprintf("%s %s %s %s", prefix, l.getPkg(), l.getFunc(), l.addPrefix(prefixDetail, message)),
 	)
 }
 
