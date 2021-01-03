@@ -8,17 +8,19 @@ const (
 	errorPrefix   = errorColor + "[ERROR]" + resetColor
 )
 
-// status Info
+// Info output to console and write to file, message
 func (l *Jlogs) Info(message string) {
 	l.typeConsoleLog(infoPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
 }
 
+// Warning output to console and write to file, message
 func (l *Jlogs) Warning(message string) {
 	l.typeConsoleLog(warningPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
 }
 
+// Error output to console and write to file, message after exit program
 func (l *Jlogs) Error(message string) {
 	l.typeConsoleLog(errorPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
