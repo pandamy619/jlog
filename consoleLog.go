@@ -12,11 +12,11 @@ const (
 )
 
 func (l *Jlogs) consoleLog(prefix string, message string) {
-	l.swithConsoleLog(l.consoleType, prefix, message)
+	l.switchConsoleLog(l.consoleType, prefix, message)
 
 }
 
-func (l *Jlogs) swithConsoleLog(typeLog string, prefix string, message string) {
+func (l *Jlogs) switchConsoleLog(typeLog string, prefix string, message string) {
 	switch typeLog {
 	case "simple":
 		l.simple(prefix, message)
@@ -61,7 +61,9 @@ func (l *Jlogs) addPrefix(prefix string, message string) string {
 // Row is formed from status/name package/name function/message.
 func (l *Jlogs) simple(prefix string, message string) {
 	fmt.Println(
-		fmt.Sprintf("%s %s %s %s", prefix, l.getPkgName(), l.getFuncName(), l.addPrefix(prefixDetail, message)),
+		fmt.Sprintf(
+			"%s %s %s %s", prefix, l.getPkgName(), l.getFuncName(), l.addPrefix(prefixDetail, message),
+		),
 	)
 }
 
