@@ -6,13 +6,18 @@ import (
 )
 
 const (
-	pkgPrefix = brightRed + "package" + resetColor
-	funcPrefix = brightRed + "func" + resetColor
-	detailPrefix = magenta + "detail" + resetColor
+	prefixPkg    = brightRed + "package" + resetColor
+	prefixFunc   = brightRed + "func" + resetColor
+	prefixDetail = magenta + "detail" + resetColor
 )
 
-func (l *Jlogs) typeConsoleLog(prefix string, message string) {
-	switch l.consoleType {
+func (l *Jlogs) consoleLog(prefix string, message string) {
+	l.switchConsoleLog(l.consoleType, prefix, message)
+
+}
+
+func (l *Jlogs) switchConsoleLog(typeLog string, prefix string, message string) {
+	switch typeLog {
 	case "simple":
 		l.simple(prefix, message)
 	case "json":
@@ -22,7 +27,7 @@ func (l *Jlogs) typeConsoleLog(prefix string, message string) {
 	}
 }
 
-func (l *Jlogs) sep(status string) string{
+func (l *Jlogs) sep(status string) string {
 	var color string
 	switch status {
 	case "info":
@@ -37,28 +42,36 @@ func (l *Jlogs) sep(status string) string{
 	return fmt.Sprintf("%s-------------------------%s", color, resetColor)
 }
 
-func (l *Jlogs) pkgRow() string{
-	return pkgPrefix + ":" + brightGreen + l.Pkg + resetColor
+// getPkg return colorized name package.
+func (l *Jlogs) getPkgName() string {
+	return prefixPkg + ":" + brightGreen + l.Pkg + resetColor
 }
 
-func (l *Jlogs) funcRow() string{
-	return funcPrefix + ":" + brightGreen + l.name + resetColor
+// getFunc return colorized name function.
+func (l *Jlogs) getFuncName() string {
+	return prefixFunc + ":" + brightGreen + l.name + resetColor
 }
 
-func (l *Jlogs) detailRow(message string) string{
-	return detailPrefix + ":" + message
+// addPrefix message then add colorized prefix 'detail' to the message and return it.
+func (l *Jlogs) addPrefix(prefix string, message string) string {
+	return prefix + ":" + message
 }
 
+// simple calls Println to print row to the console.
+// Row is formed from status/name package/name function/message.
 func (l *Jlogs) simple(prefix string, message string) {
-	row := fmt.Sprintf("%s %s %s %s", prefix, l.pkgRow(), l.funcRow(), l.detailRow(message))
-	fmt.Println(row)
+	fmt.Println(
+		fmt.Sprintf(
+			"%s %s %s %s", prefix, l.getPkgName(), l.getFuncName(), l.addPrefix(prefixDetail, message),
+		),
+	)
 }
 
 func (l *Jlogs) json(prefix string, message string) {
 	status := strings.ToLower(l.fields["status"].(string))
 	sep := l.sep(status)
 	fmt.Printf("%s\n", sep)
-	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.pkgRow(), l.funcRow())
+	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.getPkgName(), l.getFuncName())
 	fmt.Printf("%s\n", string(convertToJson(l.fields)))
 	fmt.Printf("%s\n", sep)
 }

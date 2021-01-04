@@ -10,20 +10,20 @@ const (
 
 // Info calls l.typeConsoleLog to print to the logger and print to the console
 func (l *Jlogs) Info(message string) {
-	l.typeConsoleLog(infoPrefix, message)
+	l.consoleLog(infoPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
 }
 
 // Warning calls l.typeConsoleLog to print to the logger and print to the console
 func (l *Jlogs) Warning(message string) {
-	l.typeConsoleLog(warningPrefix, message)
+	l.consoleLog(warningPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
 }
 
 // Error calls l.typeConsoleLog to print to the logger and print to the console.
 // Followed by a call to os.Exit(1)
 func (l *Jlogs) Error(message string) {
-	l.typeConsoleLog(errorPrefix, message)
+	l.consoleLog(errorPrefix, message)
 	outFile(l.makePath(), l.makeFilename(), l.Report())
 
 	os.Exit(1)
