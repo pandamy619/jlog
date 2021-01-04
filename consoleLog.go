@@ -11,10 +11,13 @@ const (
 	prefixDetail = magenta + "detail" + resetColor
 )
 
-// TODO поменять наименование метода.
-// Вынести логику определения типа вывода в консоль в адаптер
-func (l *Jlogs) typeConsoleLog(prefix string, message string) {
-	switch l.consoleType {
+func (l *Jlogs) consoleLog(prefix string, message string) {
+	l.swithConsoleLog(l.consoleType, prefix, message)
+
+}
+
+func (l *Jlogs) swithConsoleLog(typeLog string, prefix string, message string) {
+	switch typeLog {
 	case "simple":
 		l.simple(prefix, message)
 	case "json":
