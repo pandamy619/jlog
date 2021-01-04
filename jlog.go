@@ -10,11 +10,12 @@ type Jlogs struct {
 	logType  string
 }
 
-func Init(pkg string, location string, logType string) *Jlogs {
+// New creates a new Jlog
+func Init(namePkg string, logType string, logPath string) *Jlogs {
 	fun := make(map[string]interface{})
 	return &Jlogs{
-		location: location,
-		Pkg:      pkg,
+		location: logPath,
+		Pkg:      namePkg,
 		Funs:     fun,
 		logType:  logType,
 	}
