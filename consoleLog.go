@@ -12,12 +12,12 @@ const (
 )
 
 func (l *Jlogs) consoleLog(prefix string, message string) {
-	l.switchConsoleLog(l.consoleType, prefix, message)
+	l.switchConsoleLog(l.logType, prefix, message)
 
 }
 
-func (l *Jlogs) switchConsoleLog(typeLog string, prefix string, message string) {
-	switch typeLog {
+func (l *Jlogs) switchConsoleLog(logType string, prefix string, message string) {
+	switch logType {
 	case "simple":
 		l.simple(prefix, message)
 	case "json":

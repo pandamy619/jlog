@@ -41,7 +41,7 @@ func fun2(l *Jlogs) {
 		"info",
 		"message fun2",
 		time.Now().Format("2006-01-02T15:04:05"),
-		).Info("Info Message")
+	).Info("Info Message")
 }
 
 func fun3(l *Jlogs) {
@@ -55,6 +55,7 @@ func fun3(l *Jlogs) {
 		time.Now().Format("2006-01-02T15:04:05")).Info("Other message")
 }
 
+/*
 func TestLogger_JsonLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_JsonLog")
 	l := Init("Logging", "tmp", "json")
@@ -63,7 +64,7 @@ func TestLogger_JsonLog(t *testing.T) {
 	fun3(l)
 	fmt.Println("Stop test TestLogger_JsonLog")
 }
-
+*/
 func TestLogger_SimpleLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_SimpleLog")
 	l := Init("Logging", "tmp", "simple")
@@ -73,6 +74,7 @@ func TestLogger_SimpleLog(t *testing.T) {
 	fmt.Println("Stop test TestLogger_SimpleLog")
 }
 
+/*
 func TestLogger_OtherLog(t *testing.T) {
 	fmt.Println("Start test TestLogger_OtherLog")
 	l := Init("Logging", "tmp", "other")
@@ -81,3 +83,4 @@ func TestLogger_OtherLog(t *testing.T) {
 	fun3(l)
 	fmt.Println("Stop test TestLogger_OtherLog")
 }
+*/
