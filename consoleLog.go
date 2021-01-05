@@ -2,7 +2,6 @@ package jlog
 
 import (
 	"fmt"
-	"strings"
 )
 
 const (
@@ -18,28 +17,14 @@ func (l *Jlogs) consoleLog(prefix string, message string) {
 
 func (l *Jlogs) switchConsoleLog(typeLog string, prefix string, message string) {
 	switch typeLog {
-	case "simple":
+	case "log":
 		l.simple(prefix, message)
-	case "json":
-		l.json(prefix, message)
+	// case "json":
+	//	l.json(prefix, message)
 	default:
+		// TODO добавить оповещение, что метод не реализован
 		l.simple(prefix, message)
 	}
-}
-
-func (l *Jlogs) sep(status string) string {
-	var color string
-	switch status {
-	case "info":
-		color = infoColor
-	case "warning":
-		color = warningColor
-	case "error":
-		color = errorColor
-	default:
-		color = infoColor
-	}
-	return fmt.Sprintf("%s-------------------------%s", color, resetColor)
 }
 
 // getPkg return colorized name package.
@@ -65,13 +50,4 @@ func (l *Jlogs) simple(prefix string, message string) {
 			"%s %s %s %s", prefix, l.getPkgName(), l.getFuncName(), l.addPrefix(prefixDetail, message),
 		),
 	)
-}
-
-func (l *Jlogs) json(prefix string, message string) {
-	status := strings.ToLower(l.fields["status"].(string))
-	sep := l.sep(status)
-	fmt.Printf("%s\n", sep)
-	fmt.Printf("%s %s\n%s\n%s\n", prefix, message, l.getPkgName(), l.getFuncName())
-	fmt.Printf("%s\n", string(convertToJson(l.fields)))
-	fmt.Printf("%s\n", sep)
 }

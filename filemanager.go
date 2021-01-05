@@ -7,12 +7,13 @@ import (
 	"time"
 )
 
+// TODO оставить нормальные комментарии
 func (l *Jlogs) makePath() string {
 	return fmt.Sprintf("%s/%s", l.location, l.Pkg)
 }
 
 func (l *Jlogs) makeFilename() string {
-	return fmt.Sprintf("%s.json", time.Now().Format("2006-01-02T15:04:05"))
+	return fmt.Sprintf("%s.%s", time.Now().Format(timeFormat), l.consoleType)
 }
 
 // Creates a directory named path
@@ -26,6 +27,5 @@ func createDirs(path string) {
 // Creates a directory named path and save file to this directory
 func outFile(path string, filename string, makeData []byte) {
 	createDirs(path)
-	_ = ioutil.WriteFile(path + "/" + filename, makeData,0777)
+	_ = ioutil.WriteFile(path+"/"+filename, makeData, 0777)
 }
-
