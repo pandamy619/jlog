@@ -12,27 +12,27 @@ const (
 	errorPrefix   = errorColor + "[ERROR]" + resetColor
 )
 
-func createStatusMessage(prefix string, message string) string {
-	return fmt.Sprintf("%s %s %s", time.Now().Format(timeFormat), prefix, message)
+func (l *Jlogs) output(status string, prefix string, message ...interface{}) {
+	m := fmt.Sprint(message...)
+	l.consoleLog(prefix, m)
+	// TODO добавить наименование пакета и функции
+	b := []byte(fmt.Sprintf("%s %s %s", time.Now().Format(timeFormat), status, m))
+	outFile(l.makePath(), l.makeFilename(), b)
 }
 
 // Info calls l.typeConsoleLog to print to the logger and print to the console
-func (l *Jlogs) Info(message string) {
-	l.consoleLog(infoPrefix, message)
-	outFile(l.makePath(), l.makeFilename(), []byte(createStatusMessage("INFO", message)))
+func (l *Jlogs) Info(message ...interface{}) {
+	l.output("INFO", infoPrefix, message...)
 }
 
 // Warning calls l.typeConsoleLog to print to the logger and print to the console
-func (l *Jlogs) Warning(message string) {
-	l.consoleLog(warningPrefix, message)
-	outFile(l.makePath(), l.makeFilename(), []byte(createStatusMessage("WARN", message)))
+func (l *Jlogs) Warning(message ...interface{}) {
+	l.output("WARN", warningPrefix, message...)
 }
 
 // Error calls l.typeConsoleLog to print to the logger and print to the console.
 // Followed by a call to os.Exit(1)
-func (l *Jlogs) Error(message string) {
-	l.consoleLog(errorPrefix, message)
-	outFile(l.makePath(), l.makeFilename(), []byte(createStatusMessage("ERROR", message)))
-
+func (l *Jlogs) Error(message ...interface{}) {
+	l.output("ERROR", errorPrefix, message...)
 	os.Exit(1)
 }
