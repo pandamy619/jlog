@@ -16,7 +16,7 @@ func (l *Jlogs) output(status string, prefix string, message ...interface{}) {
 	m := fmt.Sprint(message...)
 	l.consoleLog(prefix, m)
 	// TODO добавить наименование пакета и функции
-	b := []byte(fmt.Sprintf("%s %s %s", time.Now().Format(timeFormat), status, m))
+	b := []byte(fmt.Sprintf("%s %s %s\n", time.Now().Format(timeFormat), status, m))
 	outFile(l.makePath(), l.makeFilename(), b)
 }
 

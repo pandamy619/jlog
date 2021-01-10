@@ -2,7 +2,6 @@ package jlog
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"time"
 )
@@ -24,8 +23,31 @@ func createDirs(path string) {
 	}
 }
 
-// Creates a directory named path and save file to this directory
-func outFile(path string, filename string, makeData []byte) {
+// outFile write or append data to a file.
+// If directory or file not exist, will be created.
+func outFile(path string, filename string, data []byte) {
 	createDirs(path)
-	_ = ioutil.WriteFile(path+"/"+filename, makeData, 0777)
+	err := writeFile(path+"/"+filename, data, 0644)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+}
+
+// writeFile writes data to a file named by filename.
+// If the file does not exist, the file will be created.
+// If the file exist, data will be appended to file
+func writeFile(filename string, data []byte, perm os.FileMode) error {
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, perm)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(data)
+	if err1 := file.Close(); err == nil {
+		err = err1
+	}
+	return err
 }

@@ -11,6 +11,7 @@ type Jlogs struct {
 }
 
 func Init(pkg string, format string, location string) *Jlogs {
+
 	fun := make(map[string]interface{})
 	return &Jlogs{
 		location:    location,
